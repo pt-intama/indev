@@ -21,7 +21,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "indokku-platform",
+            "prefix": "indev",
             "style": "kebab-case"
           }
         ]

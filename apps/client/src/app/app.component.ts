@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'indokku-platform-root',
+  selector: 'indev-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
