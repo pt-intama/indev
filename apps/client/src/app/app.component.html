@@ -1,1 +1,21 @@
-<indokku-platform-nx-welcome></indokku-platform-nx-welcome>
+<router-outlet>
+    <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li ngbNavItem>
+          <a ngbNavLink>Dasboard</a>
+          <ng-template ngbNavContent>Dasboard</ng-template>
+        </li>
+        <li ngbNavItem>
+          <a ngbNavLink>Activity</a>
+          <ng-template ngbNavContent>Activity</ng-template>
+        </li>
+        <li ngbNavItem>
+            <a ngbNavLink>Matrics</a>
+            <ng-template ngbNavContent>Matrics</ng-template>
+          </li>
+        <li ngbNavItem>
+            <a ngbNavLink>Settings</a>
+            <ng-template ngbNavContent>Settings</ng-template>
+          </li>
+      </ul>
+    <div [ngbNavOutlet]="nav"></div>
+</router-outlet>
