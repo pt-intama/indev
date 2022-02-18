@@ -3,14 +3,15 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DBService } from '@indev/db';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
-  const port = parseInt(process.env.PORT) || 3333;
+  const port = parseInt(process.env.PORT) || 4444;
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
@@ -20,6 +21,9 @@ async function bootstrap() {
       },
     }
   );
+  const db: DBService = app.get(DBService);
+  db.enableShutdownHooks(app);
+  app.useGlobalPipes(new ValidationPipe());
   app.listen();
   Logger.log(`🚀 Application is running on: tcp://localhost:${port}`);
 }
