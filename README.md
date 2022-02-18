@@ -1,4 +1,4 @@
-# IndokkuPlatform
+# Indev
 
 This project was generated using [Nx](https://nx.dev).
 
