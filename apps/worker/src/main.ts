@@ -3,8 +3,9 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DBService } from '@indev/db';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 
 import { AppModule } from './app/app.module';
@@ -20,6 +21,9 @@ async function bootstrap() {
       },
     }
   );
+  const db: DBService = app.get(DBService);
+  db.enableShutdownHooks(app);
+  app.useGlobalPipes(new ValidationPipe());
   app.listen();
   Logger.log(`🚀 Application is running on: tcp://localhost:${port}`);
 }
