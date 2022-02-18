@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
 
 import { AppService } from './app.service';
 
@@ -6,8 +7,8 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getData() {
-    return this.appService.getData();
+  @MessagePattern({ cmd: 'sum' })
+  accumulate(data: number[]): number {
+    return this.appService.accumulate(data);
   }
 }
