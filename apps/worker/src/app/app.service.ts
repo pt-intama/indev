@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getData(): { message: string } {
-    return { message: 'Welcome to worker!' };
+  accumulate(data: number[]): number {
+    return (data || []).reduce((a, b) => a + b);
   }
 }
