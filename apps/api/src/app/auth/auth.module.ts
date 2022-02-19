@@ -1,4 +1,5 @@
+import { DBModule } from '@indev/db';
 import { Module } from '@nestjs/common';
 
-@Module({})
+@Module({ imports: [DBModule] })
 export class AuthModule {}
