@@ -5,6 +5,6 @@
     "client": "apps/client",
     "client-e2e": "apps/client-e2e",
     "db": "libs/db",
-    "worker": "apps/worker"
+    "dokku": "libs/dokku"
   }
 }

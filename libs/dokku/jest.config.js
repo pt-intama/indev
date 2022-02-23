@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'worker',
+  displayName: 'dokku',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -8,8 +8,8 @@ module.exports = {
   },
   testEnvironment: 'node',
   transform: {
-    '^.+\\.[tj]s$': 'ts-jest',
+    '^.+\\.[tj]sx?$': 'ts-jest',
   },
-  moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/worker',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  coverageDirectory: '../../coverage/libs/dokku',
 };
