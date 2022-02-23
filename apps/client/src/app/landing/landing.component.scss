@@ -1,0 +1,164 @@
+// @import '../../styles.scss';
+@import '~bootstrap/scss/bootstrap';
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;800&display=swap');
+
+$background: #080c20;
+$danger: #ff2965;
+$white: #ffffff;
+$teal: #3ee9e5;
+$blue: #093f68;
+$grey: #777f98;
+$warning: $teal;
+$primary: $teal;
+$tablet-breakpoint: 769px;
+$mobile-breakpoint: 376px;
+$grid-breakpoints: (
+  sm: $mobile-breakpoint,
+  md: $tablet-breakpoint,
+);
+
+body {
+  background-color: $background;
+  font-family: 'Manrope', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 800;
+  color: $white;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+p,
+li,
+.btn-primary {
+  font-weight: 500;
+  color: $grey;
+  margin-top: 3%;
+  margin-bottom: 3%;
+  font-size: 15px;
+  line-height: 25px;
+}
+h1 {
+  font-size: 48px;
+  line-height: 56px;
+}
+h2 {
+  font-size: 40px;
+  line-height: 55px;
+}
+h3 {
+  font-size: 32px;
+  line-height: 44px;
+}
+h4 {
+  font-size: 18px;
+  line-height: 25px;
+}
+#logo {
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+@media (max-width: $tablet-breakpoint) {
+  h1 {
+    font-size: 32px;
+    line-height: 40px;
+  }
+  h3 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  h4 {
+    font-size: 18px;
+    line-height: 24px;
+  }
+  #logo {
+    margin-top: 3%;
+    margin-bottom: 3%;
+  }
+}
+
+.imgCont {
+  display: table-cell;
+  background-color: $blue;
+  height: 164px;
+  width: 160px;
+  border-radius: 45px;
+  text-align: center;
+  vertical-align: middle;
+}
+.header {
+  text-align: center;
+  margin: 2% 0% 10% 0%;
+  #teal {
+    color: $teal;
+  }
+  .row {
+    height: 100%;
+  }
+  img {
+    margin: 2%;
+  }
+}
+#mobileHeader {
+  display: none;
+}
+#headerText {
+  background-image: url('../../assets/bg-hero-squiggle.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+#imgHeaderLeft {
+  //   background-image: url('../../assets/intama2.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: #0e142e;
+  margin-left: 10%;
+}
+#imgHeaderRight {
+  background-image: url('../../assets/illustration-hero-right.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.content {
+  .row {
+    height: 400px;
+  }
+  .even {
+    bottom: 10%;
+  }
+  .odd {
+    top: 10%;
+  }
+}
+@media (max-width: $tablet-breakpoint) {
+  .content {
+    .row {
+      height: auto;
+    }
+    .odd,
+    .even {
+      display: table-cell;
+    }
+    .even {
+      left: 5%;
+    }
+    .odd {
+      right: 5%;
+    }
+    .imgCont {
+      float: left;
+      margin: 5%;
+      img {
+        position: relative;
+        bottom: -21%;
+      }
+    }
+  }
+}
+@media (max-width: $mobile-breakpoint) {
+}

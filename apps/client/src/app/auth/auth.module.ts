@@ -4,22 +4,18 @@ import { LoginComponent } from './login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    ForgotPasswordComponent
-  ],
+  declarations: [LoginComponent, ForgotPasswordComponent],
   imports: [
     RouterModule.forRoot([
       {
-        path: "auth/login",
-        component: LoginComponent
+        path: 'auth/login',
+        component: LoginComponent,
       },
       {
         path: 'auth/forgot-password',
-        component: ForgotPasswordComponent
-      }
-    ])
-
-  ]
+        component: ForgotPasswordComponent,
+      },
+    ]),
+  ],
 })
-export class AuthModule { }
+export class AuthModule {}
