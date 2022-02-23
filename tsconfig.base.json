@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@indev/db": ["libs/db/src/index.ts"]
+      "@indev/db": ["libs/db/src/index.ts"],
+      "@indev/dokku": ["libs/dokku/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

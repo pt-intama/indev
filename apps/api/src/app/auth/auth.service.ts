@@ -1,7 +1,7 @@
-import { DBService } from '@indev/db';
+import { DatabaseService } from '@indev/db';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
-  constructor(private dbService: DBService) {}
+  constructor(private dbService: DatabaseService) {}
 }

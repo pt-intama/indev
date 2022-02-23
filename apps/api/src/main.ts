@@ -5,12 +5,12 @@
 
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { DBService } from '@indev/db';
-import { AppModule } from './app/app.module';
+import { DatabaseService } from '@indev/db';
+import { RootModule } from './app/root.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const db: DBService = app.get(DBService);
+  const app = await NestFactory.create(RootModule);
+  const db: DatabaseService = app.get(DatabaseService);
   db.enableShutdownHooks(app);
   app.useGlobalPipes(new ValidationPipe());
 
