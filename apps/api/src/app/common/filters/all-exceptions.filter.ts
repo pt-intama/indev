@@ -32,12 +32,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
         httpStatus = HttpStatus.NOT_FOUND;
       } else if (exception.status === DokkuErrorStatus.ALREADY_TAKEN) {
         httpStatus = HttpStatus.CONFLICT;
-      } else if (exception.status === DokkuErrorStatus.NOT_YET_DEPLOYED) {
-        httpStatus = HttpStatus.BAD_REQUEST;
       } else if (
+        exception.status === DokkuErrorStatus.NOT_YET_DEPLOYED ||
         exception.status === DokkuErrorStatus.LETSENCRYPT_MANY_REGISTRATION
       ) {
-        httpStatus == HttpStatus.BAD_REQUEST;
+        httpStatus = HttpStatus.BAD_REQUEST;
       } else {
         logs = exception.logs;
       }
