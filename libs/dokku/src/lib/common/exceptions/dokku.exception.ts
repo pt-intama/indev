@@ -10,7 +10,7 @@ export class DokkuException extends Error {
   }
 
   public createBody() {
-    const tmpMessage = this.message.trim().replace(/ {5}|!/gi, '');
+    const tmpMessage = this.message.replace(/ {5}|!/gi, '');
 
     if (tmpMessage.includes('not exist')) {
       this.message = 'Name does not exist';

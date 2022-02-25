@@ -24,13 +24,14 @@ export class DokkuService {
     this.socket.removeAllListeners('data').on('data', function (data) {
       const str = data
         .toString()
+        .trim()
         // eslint-disable-next-line no-control-regex
         .replace(/\u001b.*?m/g, '')
         .replace(/\t/gi, '');
       let obj = null;
 
       try {
-        obj = JSON.parse(str.trim());
+        obj = JSON.parse(str);
       } catch (error) {
         callback(error.message, null, null);
         return;
