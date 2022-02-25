@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { createConnection, Socket } from 'net';
 import { Observable } from 'rxjs';
+import { DokkuException } from './common/exceptions';
 import { DokkuOptionsRegister } from './common/interfaces';
 
 @Injectable()
@@ -25,11 +26,11 @@ export class DokkuService {
         .toString()
         // eslint-disable-next-line no-control-regex
         .replace(/\u001b.*?m/g, '')
-        .trim();
+        .replace(/\t/gi, '');
       let obj = null;
 
       try {
-        obj = JSON.parse(str);
+        obj = JSON.parse(str.trim());
       } catch (error) {
         callback(error.message, null, null);
         return;
@@ -48,21 +49,18 @@ export class DokkuService {
 
   runCommand(command: string) {
     return new Observable<string>((subscribe) => {
-      this.sendCommand(
-        command,
-        (err: string | object, ok: boolean, output: string) => {
-          if (err) {
-            subscribe.error(err as string);
-          }
-
-          if (!ok) {
-            subscribe.error(output as string);
-          }
-
-          subscribe.next(output);
-          subscribe.complete();
+      this.sendCommand(command, (err: string, ok: boolean, output: string) => {
+        if (err) {
+          subscribe.error(new DokkuException(err));
         }
-      );
+
+        if (!ok) {
+          subscribe.error(new DokkuException(output));
+        }
+
+        subscribe.next(output);
+        subscribe.complete();
+      });
     });
   }
 }
