@@ -1,11 +1,13 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { DokkuOptionsRegister } from './common/interfaces';
-import { DokkuService } from './dokku.service';
+import { AppsService } from './services/apps.service';
+import { LetsencryptService } from './services/letsencrypt.service';
 
 @Module({})
 export class DokkuModule {
   static options: DokkuOptionsRegister;
   static forRoot(options?: DokkuOptionsRegister): DynamicModule {
+    const providers = [AppsService, LetsencryptService];
     DokkuModule.options = options
       ? options
       : {
@@ -19,9 +21,9 @@ export class DokkuModule {
           provide: 'DOKKU_OPTIONS',
           useValue: DokkuModule.options,
         },
-        DokkuService,
+        ...providers,
       ],
-      exports: [DokkuService],
+      exports: [...providers],
     };
   }
 }

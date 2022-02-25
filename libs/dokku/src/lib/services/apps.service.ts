@@ -1,13 +1,11 @@
-import { DokkuService } from '@indev/dokku';
 import { Injectable } from '@nestjs/common';
 import { map } from 'rxjs';
+import { AbstractService } from './abstract.service';
 
 @Injectable()
-export class AppsService {
-  constructor(private readonly dokkuService: DokkuService) {}
-
+export class AppsService extends AbstractService {
   create(name: string) {
-    return this.dokkuService.runCommand(`apps:create ${name}`).pipe(
+    return this.handle(`apps:create ${name}`).pipe(
       map(() => ({
         message: `${name} successfully created`,
       }))
@@ -15,7 +13,7 @@ export class AppsService {
   }
 
   detail(name: string) {
-    return this.dokkuService.runCommand(`apps:report ${name}`).pipe(
+    return this.handle(`apps:report ${name}`).pipe(
       map((val) => {
         const tmpApps = val.split('\n');
         tmpApps.shift();
@@ -35,7 +33,7 @@ export class AppsService {
   }
 
   list() {
-    return this.dokkuService.runCommand('apps:list').pipe(
+    return this.handle(`apps:list`).pipe(
       map((val) => {
         const apps = val.split('\n');
         apps.shift();
@@ -45,7 +43,7 @@ export class AppsService {
   }
 
   destroy(name: string) {
-    return this.dokkuService.runCommand(`--force apps:destroy ${name}`).pipe(
+    return this.handle(`--force apps:destroy ${name}`).pipe(
       map(() => ({
         message: `${name} successfully destroyed`,
       }))
@@ -53,7 +51,7 @@ export class AppsService {
   }
 
   logs(name: string) {
-    return this.dokkuService.runCommand(`logs ${name}`).pipe(
+    return this.handle(`logs ${name}`).pipe(
       map((val) => {
         if (val.includes('\n')) {
           return val.split('\n');
