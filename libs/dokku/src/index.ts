@@ -6,3 +6,5 @@ export * from './lib/dokku.module';
 // dokku service
 export * from './lib/services/apps.service';
 export * from './lib/services/letsencrypt.service';
+export * from './lib/services/domains.service';
+export * from './lib/services/config.service';

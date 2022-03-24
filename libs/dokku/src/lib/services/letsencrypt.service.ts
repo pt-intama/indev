@@ -3,7 +3,7 @@ import { map } from 'rxjs';
 import { AbstractService } from './abstract.service';
 
 @Injectable()
-export class LetsencryptService extends AbstractService {
+export class DokkuLetsencryptService extends AbstractService {
   enable(name: string) {
     return this.handle(`letsencrypt:enable ${name}`).pipe(
       map((val) => ({

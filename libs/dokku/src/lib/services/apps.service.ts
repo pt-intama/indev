@@ -3,7 +3,7 @@ import { map } from 'rxjs';
 import { AbstractService } from './abstract.service';
 
 @Injectable()
-export class AppsService extends AbstractService {
+export class DokkuAppsService extends AbstractService {
   create(name: string) {
     return this.handle(`apps:create ${name}`).pipe(
       map(() => ({
@@ -16,37 +16,32 @@ export class AppsService extends AbstractService {
     return this.handle(`apps:report ${name}`).pipe(
       map((val) => {
         const tmpApps = val.split('\n');
-        tmpApps.shift();
         const apps = [];
         tmpApps.forEach((e) => {
           const arrayToParser = e.replace(/\s+/g, '\n').trim().split('\n');
           apps.push(arrayToParser);
         });
+        const createdAt = apps[0][apps[0].length - 1];
+        const source = apps[1][apps[1].length - 1];
+        const metadata = apps[2][apps[2].length - 1];
+        const locked = apps[4][apps[4].length - 1];
         return {
-          createAt: apps[0][apps[0].length - 1],
-          source: apps[1][apps[1].length - 1],
-          metadata: apps[2][apps[2].length - 1],
-          locked: apps[4][apps[4].length - 1],
+          createdAt,
+          source: source === 'source:' ? undefined : source,
+          metadata: metadata === 'metadata:' ? undefined : metadata,
+          locked,
         };
       })
     );
   }
 
   list() {
-    return this.handle(`apps:list`).pipe(
-      map((val) => {
-        const apps = val.split('\n');
-        apps.shift();
-        return apps;
-      })
-    );
+    return this.handle(`apps:list`).pipe(map((val) => val.split('\n')));
   }
 
   destroy(name: string) {
     return this.handle(`--force apps:destroy ${name}`).pipe(
-      map(() => ({
-        message: `${name} successfully destroyed`,
-      }))
+      map(() => ({ message: 'successfully destroyed' }))
     );
   }
 

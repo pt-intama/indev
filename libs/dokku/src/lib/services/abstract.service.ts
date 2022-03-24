@@ -9,6 +9,6 @@ export abstract class AbstractService extends DokkuCore {
   }
 
   protected handle(command: string): Observable<string> {
-    return super.handle(command);
+    return super.handle(`--quiet ${command}`);
   }
 }
