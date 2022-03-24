@@ -1,65 +1,52 @@
-import { DokkuService } from '@indev/dokku';
+import {
+  DokkuAppsService,
+  DokkuConfigService,
+  DokkuDomainsService,
+  DokkuLetsencryptService,
+  IDokkuConfig,
+} from '@indev/dokku';
 import { Injectable } from '@nestjs/common';
-import { map } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class AppsService {
-  constructor(private readonly dokkuService: DokkuService) {}
+  constructor(
+    private readonly apps: DokkuAppsService,
+    private readonly domains: DokkuDomainsService,
+    private readonly config: DokkuConfigService,
+    private readonly letsencrypt: DokkuLetsencryptService
+  ) {}
 
-  create(name: string) {
-    return this.dokkuService.runCommand(`apps:create ${name}`).pipe(
-      map(() => ({
-        message: `${name} successfully created`,
-      }))
-    );
-  }
-
-  detail(name: string) {
-    return this.dokkuService.runCommand(`apps:report ${name}`).pipe(
-      map((val) => {
-        const tmpApps = val.split('\n');
-        tmpApps.shift();
-        const apps = [];
-        tmpApps.forEach((e) => {
-          const arrayToParser = e.replace(/\s+/g, '\n').trim().split('\n');
-          apps.push(arrayToParser);
-        });
-        return {
-          createAt: apps[0][apps[0].length - 1],
-          source: apps[1][apps[1].length - 1],
-          metadata: apps[2][apps[2].length - 1],
-          locked: apps[4][apps[4].length - 1],
-        };
-      })
-    );
+  async createApp(name: string, config: IDokkuConfig[]) {
+    await lastValueFrom(this.apps.create(name));
+    const globalDomain = await lastValueFrom(this.domains.getGlobalDomain());
+    await lastValueFrom(this.domains.set(name, `${name}.${globalDomain}`));
+    await lastValueFrom(this.letsencrypt.enable(name));
+    await lastValueFrom(this.config.set(name, config));
+    return {
+      git: `dokku@${globalDomain}:${name}`,
+      domain: `${name}.${globalDomain}`,
+    };
   }
 
   list() {
-    return this.dokkuService.runCommand('apps:list').pipe(
-      map((val) => {
-        const apps = val.split('\n');
-        apps.shift();
-        return apps;
-      })
-    );
+    return this.apps.list();
   }
 
-  destroy(name: string) {
-    return this.dokkuService.runCommand(`--force apps:destroy ${name}`).pipe(
-      map(() => ({
-        message: `${name} successfully destroyed`,
-      }))
-    );
+  async detail(name: string) {
+    const detail = await lastValueFrom(this.apps.detail(name));
+    const domain = await lastValueFrom(this.domains.report(name));
+    const config = await lastValueFrom(this.config.list(name));
+    const globalDomain = await lastValueFrom(this.domains.getGlobalDomain());
+    const git = `dokku@${globalDomain}:${name}`;
+    return Object.assign(detail, {
+      domain,
+      config,
+      git,
+    });
   }
 
-  logs(name: string) {
-    return this.dokkuService.runCommand(`logs ${name}`).pipe(
-      map((val) => {
-        if (val.includes('\n')) {
-          return val.split('\n');
-        }
-        return val;
-      })
-    );
+  destroyApp(name: string) {
+    return this.apps.destroy(name);
   }
 }

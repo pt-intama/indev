@@ -1,17 +1,19 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from '@indev/db';
 import { DokkuModule } from '@indev/dokku';
-import { AppsModule } from './apps/apps.module';
-import { LetsencryptModule } from './letsencrypt/letsencrypt.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters';
+import { AuthModule } from './auth/auth.module';
+import { AppsModule } from './apps/apps.module';
 
 @Module({
   imports: [
     DatabaseModule.forRoot(),
     DokkuModule.forRoot(),
+    ConfigModule.forRoot(),
+    AuthModule,
     AppsModule,
-    LetsencryptModule,
   ],
   providers: [
     {
@@ -20,4 +22,4 @@ import { AllExceptionsFilter } from './common/filters';
     },
   ],
 })
-export class RootModule {}
+export class AppModule {}

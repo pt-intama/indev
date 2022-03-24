@@ -1,13 +1,11 @@
-import { DokkuService } from '@indev/dokku';
 import { Injectable } from '@nestjs/common';
 import { map } from 'rxjs';
+import { AbstractService } from './abstract.service';
 
 @Injectable()
-export class LetsencryptService {
-  constructor(private readonly dokkuService: DokkuService) {}
-
+export class DokkuLetsencryptService extends AbstractService {
   enable(name: string) {
-    return this.dokkuService.runCommand(`letsencrypt:enable ${name}`).pipe(
+    return this.handle(`letsencrypt:enable ${name}`).pipe(
       map((val) => ({
         logs: val.split('\n'),
       }))
@@ -15,7 +13,7 @@ export class LetsencryptService {
   }
 
   disable(name: string) {
-    return this.dokkuService.runCommand(`letsencrypt:disable ${name}`).pipe(
+    return this.handle(`letsencrypt:disable ${name}`).pipe(
       map(() => ({
         message: 'successfully disabled letsencrypt',
       }))
@@ -23,7 +21,7 @@ export class LetsencryptService {
   }
 
   list() {
-    return this.dokkuService.runCommand('letsencrypt:list').pipe(
+    return this.handle('letsencrypt:list').pipe(
       map((val) => {
         const tmpLetsencrypt = val.split('\n');
         tmpLetsencrypt.shift();

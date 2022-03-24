@@ -3,8 +3,6 @@
   "projects": {
     "api": "apps/api",
     "client": "apps/client",
-    "client-e2e": "apps/client-e2e",
-    "db": "libs/db",
-    "dokku": "libs/dokku"
+    "client-e2e": "apps/client-e2e"
   }
 }
