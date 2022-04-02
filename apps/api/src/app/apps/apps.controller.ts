@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { IDokkuConfig } from '@indev/dokku';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { AppsService } from './apps.service';
 
 @Controller('apps')
@@ -18,6 +27,16 @@ export class AppsController {
   @Get('/:name')
   detail(@Param('name') name: string) {
     return this.appsService.detail(name);
+  }
+
+  @Patch('/:name/config')
+  updateConfig(@Param('name') name: string, @Body() data: unknown) {
+    return this.appsService.updateConfig(name, data as IDokkuConfig[]);
+  }
+
+  @Patch('/:name/config/:configName')
+  removeConfig(@Param('name') name: string, @Body() configNames: string[]) {
+    return this.appsService.removeConfig(name, configNames);
   }
 
   @Delete('/:name')

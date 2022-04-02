@@ -46,6 +46,14 @@ export class AppsService {
     });
   }
 
+  updateConfig(name: string, config: IDokkuConfig[]) {
+    return this.config.set(name, config);
+  }
+
+  removeConfig(name: string, configNames: string[]) {
+    return this.config.unset(name, configNames);
+  }
+
   destroyApp(name: string) {
     return this.apps.destroy(name);
   }

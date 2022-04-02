@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { DatabaseModule } from '@indev/db';
 import { DokkuModule } from '@indev/dokku';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, RouterModule } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters';
 import { AuthModule } from './auth/auth.module';
 import { AppsModule } from './apps/apps.module';
+import { UsersModule } from './users/users.module';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -13,7 +16,28 @@ import { AppsModule } from './apps/apps.module';
     DokkuModule.forRoot(),
     ConfigModule.forRoot(),
     AuthModule,
-    AppsModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'),
+    }),
+    RouterModule.register([
+      {
+        path: 'api',
+        children: [
+          {
+            path: 'apps',
+            module: AppsModule,
+          },
+          {
+            path: 'auth',
+            module: AuthModule,
+          },
+          {
+            path: 'users',
+            module: UsersModule,
+          },
+        ],
+      },
+    ]),
   ],
   providers: [
     {
