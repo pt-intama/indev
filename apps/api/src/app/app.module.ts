@@ -15,7 +15,9 @@ import { join } from 'path';
     DatabaseModule.forRoot(),
     DokkuModule.forRoot(),
     ConfigModule.forRoot(),
+    AppsModule,
     AuthModule,
+    UsersModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
     }),
