@@ -88,5 +88,9 @@
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
+  },
+  "engines": {
+    "node": "^16.13.0",
+    "yarn": "^1.22.17"
   }
 }
