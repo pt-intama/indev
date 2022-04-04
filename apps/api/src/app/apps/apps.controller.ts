@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { AppsService } from './apps.service';
 
-@Controller('apps')
+@Controller()
 export class AppsController {
   constructor(private readonly appsService: AppsService) {}
 
